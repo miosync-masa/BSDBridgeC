@@ -119,6 +119,8 @@ docs/
 - [`docs/BSDSerializationEngine.md`](docs/BSDSerializationEngine.md):
   the "serialization engine" joke corrected into a heterogeneous
   constraint-satisfaction interpretation.
+- [`docs/paper.md`](docs/paper.md): working JAR paper draft, expanded
+  section by section.
 
 ## Building
 
