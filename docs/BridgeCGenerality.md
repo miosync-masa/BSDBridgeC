@@ -124,10 +124,24 @@ by two equivalent Mathlib instances:
   `zeta_eq_tsum_one_div_nat_add_one_cpow`.
 
 The Euler-product layer (`BridgeA_EulerProductLike`) and the
-log-derivative layer (`BridgeAprime_LogDerivLike`) are retained as
-typed interfaces of the same `Set.EqOn` existential shape; concrete
-Mathlib backings would follow the same citation pattern and are not
-constructed in the current development.
+log-derivative layer (`BridgeAprime_LogDerivLike`) now also have
+concrete Mathlib-backed typed witnesses, supplied by the
+`GaussianWhoWhere/LFunctionBridge/` files:
+
+- `riemannZeta_eulerProductBridge : EulerProductBridge riemannZeta`
+  via Mathlib's `riemannZeta_eulerProduct_tprod`, with
+  forgetful `riemannZeta_bridgeA_eulerProduct`;
+- `riemannZeta_logDerivativeBridge :
+   LogDerivativeBridge riemannZeta zetaVonMangoldtModel`
+  via Mathlib's
+  `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`,
+  with forgetful `riemannZeta_bridgeAprime_logDerivative`.
+
+All three arithmetic-side layers of the C-zeta branch
+(Dirichlet, Euler product, log-derivative) are therefore now
+Mathlib-backed at the typed-bridge level. The only remaining
+zeta-side leaves are explicit non-claims: analytic continuation
+beyond the right half-plane, and zero location / RH.
 
 **Boundary.** No zero-location theorem. No HP_ft connection. No
 identification between the analytic zeta object and the
@@ -306,7 +320,7 @@ of the audit registry itself recorded as the Lean theorem
 | Branch | Object | Who | Where | Bridge C node | Closed theorem | Explicit socket |
 |---|---|---|---|---|---|---|
 | **HP** | deformation `Q` | sampled translations (`TwoIncommensurableSampledWhoInputs`) | reflection `Q(1−z)=Q(z)` (`InfiniteWhere`) | log-deriv backbone + exponential survivor + Where kill | `where_rigidity_of_oddLogSample_from_jensenCartwright`: `Q ≡ 1` (conditional) | `JensenCartwrightLinearZeroBound` |
-| **zeta** | `riemannZeta`, `completedRiemannZeta₀` | `BridgeA_DirichletLike` + `BridgeA_EulerProductLike` (half-plane identifications) | `CompletedWhereLike` (`Λ(1−s)=Λ(s)`) | architecture profile `ZetaBridgeCProfile` | Dirichlet side concrete (`riemannZeta_bridgeA_dirichlet`) | Euler / Bridge A′ concrete instantiations deferred |
+| **zeta** | `riemannZeta`, `completedRiemannZeta₀` | `BridgeA_DirichletLike` + `BridgeA_EulerProductLike` (half-plane identifications) | `CompletedWhereLike` (`Λ(1−s)=Λ(s)`) | architecture profile `ZetaBridgeCProfile` + typed `LFunctionBridgeCProfile` | all three arithmetic-side layers concrete Mathlib-backed (Dirichlet, Euler product, log-derivative) | analytic continuation / zero-location remain explicit non-claims |
 | **BSD** | elliptic-curve profile, `L(E,s)` | torsion / Sha / Tamagawa / regulator / period (`BSDWhoData`, V3-refined into `ShaDataV3` + `SelmerShaExactPackage`) | central Taylor data at `s=1` + root number (`BSDWhereData`) | `BSDWhoWhereCompatible` (leading-coefficient + rank/order sockets) | parity freezing: `negative root number ⇒ L 1 = 0` | `HigherRankSocketV3 E r` / `HigherRankSocket E r` for `r ≥ 2`; fully refined leaf profile has 12 open leaves; audit registry currently non-exhaustive |
 
 In all three rows the table reads the same way: Who supplies
@@ -390,11 +404,12 @@ The slogan for this discipline is:
 
 > **Bridge C is a proof architecture with typed exits.**
 
-Each exit (the C-HP Jensen socket; the deferred Euler / Bridge A′
-instantiations in C-zeta; the rank `≥ 2` higher-rank sockets and
-the leading-coefficient / rank-order sockets in C-BSD) is visible
-in the type signature of every theorem that depends on it. The
-reader can determine what remains open by reading types.
+Each exit (the C-HP Jensen socket; the explicit C-ζ non-claims
+of analytic continuation and zero-location / RH; the rank
+`≥ 2` higher-rank sockets and the leading-coefficient /
+rank-order sockets in C-BSD) is visible in the type signature
+of every theorem that depends on it. The reader can determine
+what remains open by reading types.
 
 ---
 

@@ -127,27 +127,33 @@ inductive ZetaLeafId where
   | zeroLocationNotClaimed
 ```
 
-Status: `dirichletBridgeConcrete` and `completedWherePredicate`
-are `closed`; the other four are `«open»`.
+Status (post-promotion): `dirichletBridgeConcrete`,
+`completedWherePredicate`, `eulerProductInterface`, and
+`logDerivativeInterface` are `closed`; the two remaining
+constructors are `«open»` (explicit non-claims).
+
+The Euler-product and log-derivative leaves were promoted from
+`«open»` to `closed` after `GaussianWhoWhere` supplied concrete
+Mathlib-backed typed witnesses
+(`riemannZeta_eulerProductBridge`,
+`riemannZeta_logDerivativeBridge`). `BSDBridgeC` does **not**
+import `GaussianWhoWhere`; the status update is a
+classification-only change justified by the external repo state
+and documented here.
 
 **Important warning.** In this branch, `«open»` is overloaded
 relative to the BSD branch's leaf-localization convention.
-Here it means:
-
-- *deferred interface* (e.g. `eulerProductInterface`,
-  `logDerivativeInterface`), or
-- *explicit non-claim* (e.g. `analyticContinuationNotClaimed`,
-  `zeroLocationNotClaimed`),
-
-**not** "frontier-open mathematics". The scaffold's `«open»`
-tag is therefore a scaffold-level taxonomy, not a difficulty
-claim. This nuance is recorded in the Lean file's docstring on
-`ZetaLeafId.status`.
+Here it means *explicit non-claim* (i.e.
+`analyticContinuationNotClaimed`,
+`zeroLocationNotClaimed`), **not** "frontier-open mathematics".
+The scaffold's `«open»` tag is therefore a scaffold-level
+taxonomy, not a difficulty claim. This nuance is recorded in
+the Lean file's docstring on `ZetaLeafId.status`.
 
 Count theorems (`rfl`):
 
-- `zeta_closedLeafIds_count = 2`,
-- `zeta_openLeafIds_count = 4`,
+- `zeta_closedLeafIds_count = 4`,
+- `zeta_openLeafIds_count = 2`,
 - `zeta_allLeafIds_count = 6`.
 
 ---
@@ -264,11 +270,13 @@ prove any of them. Explicitly:
 - The Lean file does **not** import `GaussianWhoWhere`. HP and ζ
   leaves are reference-only labels; the substantive Lean content
   for those branches lives in the other package.
-- The C-ζ branch's `«open»` tag means *deferred interface* or
-  *explicit non-claim*, **not** frontier-open mathematics. This
-  is the only place in the V5 layer where the scaffold's
-  `LeafStatus` is overloaded relative to the BSD convention, and
-  the overloading is documented at the source.
+- After V's promotion of `eulerProductInterface` and
+  `logDerivativeInterface` to `closed`, the C-ζ branch's
+  `«open»` tag means *explicit non-claim* (analytic
+  continuation, zero-location / RH), **not** frontier-open
+  mathematics. This is the only place in the V5 layer where the
+  scaffold's `LeafStatus` is overloaded relative to the BSD
+  convention, and the overloading is documented at the source.
 
 ---
 

@@ -154,11 +154,12 @@ theorem hp_allLeafIds_count :
 /-! ## C-zeta typed leaves
 
 Reference-only.  "closed" here means concrete (Mathlib-backed or
-concrete-predicate-shape); "open" means deferred typed interface
-or explicit non-claim at the scaffold level — **not**
+concrete-predicate-shape); after V's promotion of the Euler-product
+and log-derivative leaves, "open" means *explicit non-claim* at the
+scaffold level (analytic continuation, zero-location / RH) — **not**
 mathematically open at the frontier. -/
 
-/-- Typed identifier for the C-zeta scaffold leaves. -/
+/-- Typed identifier for the C-zeta branch leaves. -/
 inductive ZetaLeafId where
   | dirichletBridgeConcrete
   | completedWherePredicate
@@ -169,12 +170,25 @@ inductive ZetaLeafId where
 deriving DecidableEq, Repr
 
 /-- Status of a zeta leaf in the scaffold sense.  See the
-file-level docstring: `«open»` here means deferred-interface or
-explicit non-claim, not frontier-open mathematics. -/
+file-level docstring: after V's promotion, `«open»` here means
+*explicit non-claim* (analytic continuation, zero-location / RH),
+not frontier-open mathematics.
+
+Post-promotion: `eulerProductInterface` and
+`logDerivativeInterface` are marked `closed` because
+`GaussianWhoWhere` now provides concrete Mathlib-backed
+witnesses (`riemannZeta_eulerProductBridge`,
+`riemannZeta_logDerivativeBridge`).  `BSDBridgeC` does not
+import `GaussianWhoWhere`; this status update is a
+classification-only change justified by the external repo
+state and recorded in `docs/BranchLeafRegistry.md`. -/
 def ZetaLeafId.status : ZetaLeafId → LeafStatus
   | .dirichletBridgeConcrete => .closed
   | .completedWherePredicate => .closed
-  | _ => .«open»
+  | .eulerProductInterface => .closed
+  | .logDerivativeInterface => .closed
+  | .analyticContinuationNotClaimed => .«open»
+  | .zeroLocationNotClaimed => .«open»
 
 /-- Human-readable label for a zeta leaf. -/
 def ZetaLeafId.label : ZetaLeafId → String
@@ -183,9 +197,9 @@ def ZetaLeafId.label : ZetaLeafId → String
   | .completedWherePredicate =>
       "Completed Where predicate"
   | .eulerProductInterface =>
-      "Euler-product interface (deferred)"
+      "Euler-product bridge concrete (Mathlib-backed in GaussianWhoWhere)"
   | .logDerivativeInterface =>
-      "Bridge A' log-derivative interface (deferred)"
+      "Bridge A' log-derivative concrete (Mathlib-backed in GaussianWhoWhere)"
   | .analyticContinuationNotClaimed =>
       "analytic continuation (non-claim)"
   | .zeroLocationNotClaimed =>
@@ -197,18 +211,21 @@ def ZetaLeafId.toBranchLeaf (id : ZetaLeafId) : BranchLeaf :=
     name := id.label
     status := id.status
     description :=
-      "C-zeta scaffold leaf; 'open' means deferred interface or non-claim, not frontier-open" }
+      "C-zeta leaf; post-promotion, 'open' means explicit non-claim, not frontier-open" }
 
-/-- Zeta closed leaves (2: Dirichlet, completed-Where). -/
+/-- Zeta closed leaves (4 after V's promotion: Dirichlet,
+completed-Where, Euler product, log-derivative). -/
 def zeta_closedLeafIds : List ZetaLeafId :=
   [ .dirichletBridgeConcrete,
-    .completedWherePredicate ]
+    .completedWherePredicate,
+    .eulerProductInterface,
+    .logDerivativeInterface ]
 
-/-- Zeta open (deferred / non-claim) leaves (4). -/
+/-- Zeta open (non-claim) leaves (2 after V's promotion:
+analytic continuation and zero-location remain explicit
+non-claims). -/
 def zeta_openLeafIds : List ZetaLeafId :=
-  [ .eulerProductInterface,
-    .logDerivativeInterface,
-    .analyticContinuationNotClaimed,
+  [ .analyticContinuationNotClaimed,
     .zeroLocationNotClaimed ]
 
 /-- All zeta leaves. -/
@@ -216,10 +233,10 @@ def zeta_allLeafIds : List ZetaLeafId :=
   zeta_closedLeafIds ++ zeta_openLeafIds
 
 theorem zeta_closedLeafIds_count :
-    zeta_closedLeafIds.length = 2 := rfl
+    zeta_closedLeafIds.length = 4 := rfl
 
 theorem zeta_openLeafIds_count :
-    zeta_openLeafIds.length = 4 := rfl
+    zeta_openLeafIds.length = 2 := rfl
 
 theorem zeta_allLeafIds_count :
     zeta_allLeafIds.length = 6 := rfl
@@ -382,13 +399,13 @@ def hp_branchLeafProfile : BridgeCBranchLeafProfile :=
       "C-HP: all internalized except JensenCartwrightLinearZeroBound" }
 
 /-- C-zeta branch-leaf profile.  Note: `«open»` here means
-deferred / non-claim at the scaffold level, not frontier-open. -/
+non-claim at the scaffold level, not frontier-open. -/
 def zeta_branchLeafProfile : BridgeCBranchLeafProfile :=
   { branch := .zeta
     closedCount := zeta_closedLeafIds.length
     openCount := zeta_openLeafIds.length
     summary :=
-      "C-zeta: Dirichlet bridge concrete; Euler / log-deriv deferred; RH non-claims" }
+      "C-zeta: Dirichlet / Euler / log-deriv concrete; continuation + RH non-claims" }
 
 /-- C-BSD branch-leaf profile.  Uses the
 `bsd_fullyRefinedLeafIds` partition counts. -/

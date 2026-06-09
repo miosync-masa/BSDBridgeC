@@ -86,8 +86,10 @@ def bridgeC_zeta_profile : BridgeCBranchProfile :=
     whoLayer := "Dirichlet and Euler identity layers"
     whereLayer := "completed functional equation"
     bridgeNode := "ZetaBridgeCProfile"
-    closedPart := "Dirichlet side Mathlib-backed; other layers typed"
-    explicitSocket := "Euler product and Bridge A' wrappers deferred" }
+    closedPart :=
+      "all four layers Mathlib-backed; full ZetaBridgeCProfile riemannZeta concrete"
+    explicitSocket :=
+      "analytic continuation and zero-location / RH remain explicit non-claims" }
 
 /-- Registry entry for the BSD branch, internal to this package. -/
 def bridgeC_BSD_profile : BridgeCBranchProfile :=
