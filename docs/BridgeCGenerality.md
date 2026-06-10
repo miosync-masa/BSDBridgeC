@@ -14,10 +14,10 @@ conjecture, or any of the named open sockets has been discharged.
 
 Companion documents:
 
-- `/Users/iizumimamichi/GaussianWhoWhere/docs/BridgeCBranches.md`
-- `/Users/iizumimamichi/GaussianWhoWhere/docs/LeanDAG.md`
-- `/Users/iizumimamichi/BSDBridgeC/docs/LeanDAG.md`
-- `/Users/iizumimamichi/BSDBridgeC/docs/BSDSerializationEngine.md`
+- `https://github.com/miosync-masa/GaussianWhoWhere/docs/BridgeCBranches.md`
+- `https://github.com/miosync-masa/GaussianWhoWhere/docs/LeanDAG.md`
+- `https://github.com/miosync-masa/BSDBridgeC/docs/LeanDAG.md`
+- `https://github.com/miosync-masa/BSDBridgeC/docs/BSDSerializationEngine.md`
 
 ---
 
